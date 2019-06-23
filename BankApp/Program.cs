@@ -6,31 +6,53 @@ namespace BankApp
     {
         static void Main(string[] args)
         {
-            ////Object = instance the class
-            //var myAccount = new Account()
-            //{
-            //    EmailAddress = "test@test.com",
-            //    AccountType = "Checking"
-            //};
-            //myAccount.Deposit(200);
-            //Console.WriteLine($"AN: {myAccount.AccountNumber}, EA: {myAccount.EmailAddress}, B: {myAccount.Balance:C}, CD: {myAccount.CreatedDate}");
-
-            //var myAccount2 = new Account()
-            //{
-            //    EmailAddress = "test2@test.com",
-            //    AccountType = "Savings"
-            //};
-            //myAccount2.Deposit(500);
-            //Console.WriteLine($"AN: {myAccount2.AccountNumber}, EA: {myAccount2.EmailAddress}, B: {myAccount2.Balance:C}, CD: {myAccount2.CreatedDate}");
-
+          
             Console.WriteLine("********************");
             Console.WriteLine("Welcome to my bank!");
-            Console.WriteLine("0. Exit");
-            Console.WriteLine("1. Create a new account");
-            Console.WriteLine("2. Deposit");
-            Console.WriteLine("3. Withdraw");
-            Console.WriteLine("4. Print all accounts");
+            while (true)
+            {
+                Console.WriteLine("0. Exit");
+                Console.WriteLine("1. Create a new account");
+                Console.WriteLine("2. Deposit");
+                Console.WriteLine("3. Withdraw");
+                Console.WriteLine("4. Print all accounts");
 
+                var choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "0":
+                        Console.WriteLine("Thank you for visiting the bank!");
+                        return;
+                    case "1":
+                        Console.Write("Email Address: ");
+                        var emailAddress = Console.ReadLine();
+
+                        Console.WriteLine("Account types: ");
+                        var accountTypes = Enum.GetNames(typeof(TypeOfAccount));
+                        for(var i = 0; i < accountTypes.Length; i++)
+                        {
+                            Console.WriteLine($"{i}. {accountTypes[i]}");
+                        }
+                        Console.Write("Select an account type: ");
+                        var accountType = Convert.ToInt32(Console.ReadLine());
+
+                        Console.Write("Initial deposit: ");
+                        var amount = Convert.ToDecimal(Console.ReadLine());
+
+                        var account = Bank.CreateAccount(emailAddress,
+                            (TypeOfAccount)accountType, amount);
+                        Console.WriteLine($"AN : {account.AccountNumber}, B: {account.Balance:C}, AT: {account.AccountType}, CD: {account.CreatedDate}");
+                        break;
+                    case "2":
+                        break;
+                    case "3":
+                        break;
+                    case "4":
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }
