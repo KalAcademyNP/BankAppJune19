@@ -44,14 +44,46 @@ namespace BankApp
                         Console.WriteLine($"AN : {account.AccountNumber}, B: {account.Balance:C}, AT: {account.AccountType}, CD: {account.CreatedDate}");
                         break;
                     case "2":
+                        PrintAllAccounts();
+                        Console.Write("Account number: ");
+                        var accountNumber = Convert.ToInt32(Console.ReadLine());
+
+                        Console.Write("Amount to deposit: ");
+                        amount = Convert.ToDecimal(Console.ReadLine());
+
+                        Bank.Deposit(accountNumber, amount);
+                        Console.WriteLine("Deposit completed successfully!");
                         break;
                     case "3":
+                        PrintAllAccounts();
+                        Console.Write("Account number: ");
+                        accountNumber = Convert.ToInt32(Console.ReadLine());
+
+                        Console.Write("Amount to withdraw: ");
+                        amount = Convert.ToDecimal(Console.ReadLine());
+
+                        Bank.Withdraw(accountNumber, amount);
+                        Console.WriteLine("Withdrawal completed successfully!");
                         break;
                     case "4":
+                        PrintAllAccounts();
                         break;
                     default:
                         break;
                 }
+            }
+        }
+
+        private static void PrintAllAccounts()
+        {
+            Console.Write("Email Address: ");
+            var emailAddress = Console.ReadLine();
+
+            var accounts =
+                Bank.GetAccountsByEmailAddress(emailAddress);
+            foreach (var acct in accounts)
+            {
+                Console.WriteLine($"AN : {acct.AccountNumber}, B: {acct.Balance:C}, AT: {acct.AccountType}, CD: {acct.CreatedDate}");
             }
         }
     }
