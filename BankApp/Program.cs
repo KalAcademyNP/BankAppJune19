@@ -56,14 +56,21 @@ namespace BankApp
                         break;
                     case "3":
                         PrintAllAccounts();
-                        Console.Write("Account number: ");
-                        accountNumber = Convert.ToInt32(Console.ReadLine());
+                        try
+                        {
+                            Console.Write("Account number: ");
+                            accountNumber = Convert.ToInt32(Console.ReadLine());
 
-                        Console.Write("Amount to withdraw: ");
-                        amount = Convert.ToDecimal(Console.ReadLine());
+                            Console.Write("Amount to withdraw: ");
+                            amount = Convert.ToDecimal(Console.ReadLine());
 
-                        Bank.Withdraw(accountNumber, amount);
-                        Console.WriteLine("Withdrawal completed successfully!");
+                            Bank.Withdraw(accountNumber, amount);
+                            Console.WriteLine("Withdrawal completed successfully!");
+                        }
+                        catch (ArgumentException ax)
+                        {
+                            Console.WriteLine($"{ax.Message}");
+                        }
                         break;
                     case "4":
                         PrintAllAccounts();

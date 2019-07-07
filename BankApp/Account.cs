@@ -19,25 +19,23 @@ namespace BankApp
     /// </summary>
     class Account
     {
-        private static int lastAccountNumber = 0;
 
         #region Properties
         /// <summary>
         /// Unique number for the account
         /// </summary>
-        public int AccountNumber { get; private set; }
+        public int AccountNumber { get;  set; }
 
         public string EmailAddress { get; set; }
         public TypeOfAccount AccountType { get; set; }
-        public decimal Balance { get; private set; }
-        public DateTime CreatedDate { get; private set; }
+        public decimal Balance { get;  set; }
+        public DateTime CreatedDate { get;  set; }
         #endregion
 
         #region Constructors
 
         public Account()
         {
-            AccountNumber = ++lastAccountNumber;
             CreatedDate = DateTime.Now;
         }
 
@@ -57,6 +55,10 @@ namespace BankApp
 
         public void Withdraw(decimal amount)
         {
+            if (amount > Balance)
+            {
+                throw new ArgumentException("Insufficient fund in the account!");
+            }
             Balance -= amount;
         }
         #endregion

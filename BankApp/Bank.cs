@@ -7,10 +7,7 @@ namespace BankApp
 {
     static class Bank
     {
-        private static List<Account> accounts = new List<Account>();
-        private static List<Transaction> transactions = new List<Transaction>();
-
-        
+        private static BankContext db = new BankContext();
         /// <summary>
         /// Creates a new account
         /// </summary>
@@ -31,14 +28,15 @@ namespace BankApp
             {
                 account.Deposit(initialDeposit);
             }
-            accounts.Add(account);
+            db.Accounts.Add(account);
+            db.SaveChanges();
             return account;
         }
 
         public static IEnumerable<Account> 
             GetAccountsByEmailAddress(string emailAddress)
         {
-            return accounts.Where(a => a.EmailAddress == emailAddress);
+            return db.Accounts.Where(a => a.EmailAddress == emailAddress);
         }
 
         public static void Deposit(int accountNumber, decimal amount)
@@ -54,8 +52,8 @@ namespace BankApp
                 AccountNumber = accountNumber,
                 TransactionType = TransactionType.Credit
             };
-            transactions.Add(transaction);
-
+            db.Transactions.Add(transaction);
+            db.SaveChanges();
         }
 
         public static void Withdraw(int accountNumber, decimal amount)
@@ -70,18 +68,18 @@ namespace BankApp
                 AccountNumber = accountNumber,
                 TransactionType = TransactionType.Debit
             };
-            transactions.Add(transaction);
+            db.Transactions.Add(transaction);
+            db.SaveChanges();
         }
 
         private static Account FindAccountByAccountNumber
             (int accountNumber)
         {
             var account =
-                accounts.SingleOrDefault(a => a.AccountNumber == accountNumber);
+                db.Accounts.SingleOrDefault(a => a.AccountNumber == accountNumber);
             if (account == null)
             {
-                //Throw exception
-                return null;
+                throw new ArgumentException("Invalid account number!");
             }
 
             return account;

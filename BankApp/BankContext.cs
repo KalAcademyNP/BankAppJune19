@@ -1,0 +1,61 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace BankApp
+{
+    class BankContext : DbContext
+    {
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
+        protected override void OnConfiguring(
+            DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BankAppJune19;Integrated Security=True;Connect Timeout=30;");
+        }
+
+        protected override void OnModelCreating(
+            ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Account>(e =>
+            {
+                e.HasKey(a => a.AccountNumber)
+                .HasName("PK_Accounts");
+
+                e.ToTable("Accounts");
+
+                e.Property(a => a.AccountNumber)
+                    .ValueGeneratedOnAdd();
+
+                e.Property(a => a.EmailAddress)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                e.Property(a => a.AccountType)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity<Transaction>(e =>
+            {
+                e.ToTable("Transactions");
+
+                e.HasKey(t => t.TransactionId)
+                    .HasName("PK_Transactions");
+
+                e.Property(t => t.TransactionId)
+                    .ValueGeneratedOnAdd();
+
+                e.Property(t => t.Amount)
+                    .IsRequired();
+
+                e.HasOne(t => t.Account)
+                    .WithMany()
+                    .HasForeignKey(t => t.AccountNumber);
+
+            });
+        }
+
+    }
+}
