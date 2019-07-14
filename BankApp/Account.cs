@@ -57,7 +57,8 @@ namespace BankApp
         {
             if (amount > Balance)
             {
-                throw new ArgumentException("Insufficient fund in the account!");
+                //throw new ArgumentException("Insufficient fund in the account!");
+                throw new NSFException();
             }
             Balance -= amount;
         }

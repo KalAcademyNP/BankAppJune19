@@ -36,6 +36,10 @@ namespace BankApp
         public static IEnumerable<Account> 
             GetAccountsByEmailAddress(string emailAddress)
         {
+            if (string.IsNullOrEmpty(emailAddress))
+            {
+                throw new ArgumentNullException("emailAddress", "Email Address is required!");
+            }
             return db.Accounts.Where(a => a.EmailAddress == emailAddress);
         }
 
@@ -56,6 +60,12 @@ namespace BankApp
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Withdraw money from the account
+        /// </summary>
+        /// <param name="accountNumber">Account number</param>
+        /// <param name="amount">Amount to withdraw</param>
+        /// <exception cref="ArgumentException" />
         public static void Withdraw(int accountNumber, decimal amount)
         {
             var account = FindAccountByAccountNumber(accountNumber);

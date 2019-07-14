@@ -55,9 +55,9 @@ namespace BankApp
                         Console.WriteLine("Deposit completed successfully!");
                         break;
                     case "3":
-                        PrintAllAccounts();
                         try
                         {
+                            PrintAllAccounts();
                             Console.Write("Account number: ");
                             accountNumber = Convert.ToInt32(Console.ReadLine());
 
@@ -67,10 +67,28 @@ namespace BankApp
                             Bank.Withdraw(accountNumber, amount);
                             Console.WriteLine("Withdrawal completed successfully!");
                         }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Error - Please provide a valid number. Try again!");
+
+                        }
+                        catch (ArgumentNullException ax)
+                        {
+                            Console.WriteLine($"{ax.Message}");
+                        }
                         catch (ArgumentException ax)
                         {
                             Console.WriteLine($"{ax.Message}");
                         }
+                        catch(NSFException)
+                        {
+                            Console.WriteLine("Insufficient funds in the account! Try again!");
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Something went wrong. Try again!");
+                        }
+
                         break;
                     case "4":
                         PrintAllAccounts();
