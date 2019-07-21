@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankApp
 {
-    class NSFException : Exception
+    public class NSFException : Exception
     {
     }
 }

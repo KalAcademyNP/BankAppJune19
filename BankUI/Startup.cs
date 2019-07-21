@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using BankUI.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BankApp;
 
 namespace BankUI
 {
@@ -40,6 +41,7 @@ namespace BankUI
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddTransient<BankContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
