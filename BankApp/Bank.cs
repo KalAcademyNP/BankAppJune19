@@ -33,6 +33,11 @@ namespace BankApp
             return account;
         }
 
+        public static IEnumerable<Transaction> GetTransactionsByAccountNumber(int accountNumber)
+        {
+            return db.Transactions.Where(t => t.AccountNumber == accountNumber).OrderByDescending(t => t.TransactionDate);
+        }
+
         public static IEnumerable<Account> 
             GetAccountsByEmailAddress(string emailAddress)
         {
@@ -82,7 +87,7 @@ namespace BankApp
             db.SaveChanges();
         }
 
-        private static Account FindAccountByAccountNumber
+        public static Account FindAccountByAccountNumber
             (int accountNumber)
         {
             var account =
@@ -93,6 +98,23 @@ namespace BankApp
             }
 
             return account;
+        }
+
+        public static void EditAccount(Account updatedAccount)
+        {
+            var oldAccount = 
+                FindAccountByAccountNumber(updatedAccount.AccountNumber);
+            oldAccount.EmailAddress = updatedAccount.EmailAddress;
+            oldAccount.AccountType = updatedAccount.AccountType;
+
+            db.SaveChanges();
+        }
+
+        public static void DeleteAccount(int accountNumber)
+        {
+            var account = FindAccountByAccountNumber(accountNumber);
+            db.Accounts.Remove(account);
+            db.SaveChanges();
         }
     }
 }
